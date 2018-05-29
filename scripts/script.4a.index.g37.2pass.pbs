@@ -1,0 +1,12 @@
+#!/bin/bash
+#PBS -N log.indexing_g37_2pass
+#PBS -j oe
+#PBS -l walltime=6:00:00
+#PBS -l nodes=1:ppn=8
+#PBS -l mem=35Gb
+
+module load gcc/6.2.0
+module load STAR/2.5.3a
+
+STAR --runThreadN 8 --runMode genomeGenerate --genomeDir /scratch/a.cri.mforde/sra_downloads/g37/2pass --genomeFastaFiles /scratch/a.cri.mforde/sra_downloads/g37/2pass/Homo_sapiens.GRCh37.dna.primary_assembly.fa --sjdbGTFfile /scratch/a.cri.mforde/sra_downloads/g37/2pass/Homo_sapiens.GRCh37.87.gtf --sjdbFileChrStartEnd  /scratch/a.cri.mforde/sra_downloads/g37.merge.sj.out --limitSjdbInsertNsj=2000000 --sjdbOverhang 99
+

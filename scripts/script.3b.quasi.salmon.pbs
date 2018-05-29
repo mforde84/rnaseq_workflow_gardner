@@ -1,0 +1,15 @@
+#!/bin/bash
+#PBS -N log.quasi_g37_salmon
+#PBS -j oe
+#PBS -l walltime=6:00:00
+#PBS -l nodes=1:ppn=6
+#PBS -l mem=30Gb
+
+module load gcc/6.2.0
+module load salmon/0.9.1
+
+cd /scratch/a.cri.mforde/sra_downloads
+
+salmon quant -p 6 -l A -i g37/g37_transcript_index -1 $input_file -2 $input_file2 -o "$input_file"_g37_salmon_results
+
+exit 0

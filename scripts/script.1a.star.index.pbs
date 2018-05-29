@@ -1,0 +1,17 @@
+#!/bin/bash
+#PBS -j oe
+#PBS -o logs/
+#PBS -l nodes=1:ppn=8
+#PBS -l mem=35Gb
+
+module load gcc/6.2.0
+module load STAR/2.5.3a
+
+STAR \
+	--runThreadN 8 \
+	--runMode genomeGenerate \
+	--genomeDir $GENOME_DIR \
+	--genomeFastaFiles "$GENOME_DIR"/genome.fa \
+	--sjdbGTFfile "$GENOME_DIR"/genes.gtf \
+	--sjdbOverhang $(( "$RNASEQ_READ_LENGTH" - 1 ));
+

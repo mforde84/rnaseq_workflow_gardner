@@ -1,0 +1,18 @@
+#!/bin/bash
+#PBS -j oe
+#PBS -o logs/
+#PBS -l walltime=6:00:00
+#PBS -l nodes=1:ppn=2
+#PBS -l mem=30Gb
+
+module load gcc/6.2.0
+module load cufflinks/2.2.1
+module load salmon/0.9.1
+
+cd $GENOME_DIR;
+
+samtools faidx genome.fa;
+gffread -w transcriptome.fa -g genome.fa genes.gtf
+salmon index -t transcriptome.fa -i transcript_index --type quasi -k "$RNASEQ_KMER_LENGTH" -p 2
+
+exit 0

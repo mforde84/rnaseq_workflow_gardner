@@ -1,0 +1,22 @@
+#!/bin/bash
+
+#download SRA
+while read -r line; do
+ ID.download=`qsub -N log.sra.download."$line" -v RNASEQ_ROOT="$RNASEQ_ROOT" -v input_line="$line" script.2a.sra.download.pbs`
+done < "$RNASEQ_SRA_LIST"
+
+# index g37
+if [[ "$RNASEQ_GENOMES" == "both" ]] || [[ "$RNASEQ_GENOMES" == "g37" ]]; then  
+ ID.g37.index.1=`qsub -N log.indexing.g37.STAR1pass -V $RNASEQ_ROOT/scripts/script.1a.index.g37.STAR1pass.pbs`;
+ ID.g37.index.2=`qsub -N log.indexing.g37.salmon -V $RNASEQ_ROOT/scripts/script.1c.index.g37.STAR1pass.pbs`; 
+ 
+fi
+
+# index g38
+if [[ "$RNASEQ_GENOMES" == "both" ]] || [[ "$RNASEQ_GENOMES" == "g38" ]]; then 
+  star.1pass.index.g38.ID=`qsub -N log.indexing.g38.STAR1pass -v RNASEQ_ROOT="$RNASEQ_ROOT",RNASEQ_G38_FASTA="$RNASEQ_G38_FASTA",RNASEQ_G38_GTF="$RNASEQ_G38_GTF" scripts/script.1b.index.g38.STAR1pass.pbs` | sed 's/.*//g';
+  salmon.index.g37.ID=`qsub -N log.indexing.g38.salmon -v RNASEQ_ROOT="$RNASEQ_ROOT",RNASEQ_G38_FASTA="$RNASEQ_G38_FASTA",RNASEQ_G38_GTF="$RNASEQ_G38_GTF" scripts/script.1d.index.g38.STAR1pass.pbs` | sed 's/.*//g';
+fi
+
+
+exit 0

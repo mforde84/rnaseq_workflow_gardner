@@ -1,0 +1,16 @@
+#!/bin/bash
+#PBS -N log.samsort
+#PBS -j oe
+#PBS -l walltime=6:00:00
+#PBS -l nodes=1:ppn=8
+#PBS -l mem=8Gb
+
+module load gcc/6.2.0
+module load samtools/1.6.0
+
+cd /scratch/a.cri.mforde/sra_downloads
+
+samtools sort -m 1G -@ 8 -n -o "$input_file".sort.bam -O bam $input_file
+
+
+

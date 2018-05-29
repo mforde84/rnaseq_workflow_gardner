@@ -1,0 +1,5 @@
+
+EXITING: FATAL INPUT ERROR: empty value for parameter "readFilesIn" in input "Command-Line"
+SOLUTION: use non-empty value for this parameter
+
+May 24 14:26:03 ...... FATAL ERROR, exiting

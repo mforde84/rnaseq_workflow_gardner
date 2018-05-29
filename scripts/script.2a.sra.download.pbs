@@ -1,0 +1,14 @@
+#!/bin/bash
+#PBS -j oe
+#PBS -l walltime=6:00:00
+#PBS -l nodes=1:ppn=1
+#PBS -l mem=1Gb
+
+module load gcc/6.2.0
+module load sra-tools/2.8.0
+
+# download SRA fastq files, and split by read name if paired
+# single end reads still get properly parsed with --split-3 flag
+fastq-dump --split-3 -O $RNASEQ_ROOT/data/reads $input_line
+
+exit 0
