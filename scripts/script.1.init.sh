@@ -5,24 +5,29 @@
 ##################
 
 # G37 star1
-if [ ! -f $RNASEQ_ROOT/references/g37.star.$RNASEQ_READ_LENGTH/SA ]; then 
- ID.g37.index.star1=`GENOME_DIR=$RNASEQ_ROOT/references/g37.$RNASEQ_READ_LENGTH qsub -N log.indexing.g37.STAR1pass -V $RNASEQ_ROOT/scripts/script.1a.star.index.pbs | sed 's/\..*//g'`;
+if [ ! -f $RNASEQ_ROOT/references/g37.star.$RNASEQ_READ_LENGTH/SA ]; then
+ export GENOME_DIR=$RNASEQ_ROOT/references/g37.star.$RNASEQ_READ_LENGTH;
+ ID_index=`qsub -o $RNASEQ_ROOT/logs/ -N log.indexing.g37.STAR1pass -V $RNASEQ_ROOT/scripts/script.1a.star.index.pbs | sed 's/\..*//g'`;
 fi
 
 # G37 salmon
 if [ ! -d $RNASEQ_ROOT/references/g37.salmon.$RNASEQ_KMER_LENGTH/transcript_index ]; then 
- ID.g37.index.salmon=`GENOME_DIR=$RNASEQ_ROOT/references/g37.$RNASEQ_READ_LENGTH qsub -N log.indexing.g37.salmon -V $RNASEQ_ROOT/scripts/script.1b.salmon.index.pbs | sed 's/\..*//g'`; 
+ export GENOME_DIR=$RNASEQ_ROOT/references/g37.salmon.$RNASEQ_KMER_LENGTH;
+ ID_index=$ID_index","`qsub -o $RNASEQ_ROOT/logs/ -N log.indexing.g37.salmon -V $RNASEQ_ROOT/scripts/script.1b.salmon.index.pbs | sed 's/\..*//g'`; 
 fi
+
 
 # G38 star1
 if [ ! -f $RNASEQ_ROOT/references/g38.star.$RNASEQ_READ_LENGTH/SA ]; then
- ID.g38.index.star1=`GENOME_DIR=$RNASEQ_ROOT/references/g38 qsub -N log.indexing.g38.STAR1pass -V $RNASEQ_ROOT/scripts/script.1a.star.index.pbs | sed 's/\..*//g'`;
-fi;
+ export GENOME_DIR=$RNASEQ_ROOT/references/g38.star.$RNASEQ_READ_LENGTH;
+ ID_index=$ID_index","`qsub -o $RNASEQ_ROOT/logs/ -N log.indexing.g38.STAR1pass -V $RNASEQ_ROOT/scripts/script.1a.star.index.pbs | sed 's/\..*//g'`;
+fi
 
 # G38 salmon
 if [ ! -d $RNASEQ_ROOT/references/g38.salmon.$RNASEQ_KMER_LENGTH/transcript_index ]; then
- ID.g38.index.salmon=`GENOME_DIR=$RNASEQ_ROOT/references/g38 qsub -N log.indexing.g38.salmon -V $RNASEQ_ROOT/scripts/script.1b.salmon.index.pbs | sed 's/\..*//g'`;
-fi;
+ export GENOME_DIR=$RNASEQ_ROOT/references/g38.salmon.$RNASEQ_KMER_LENGTH;
+ ID_index=$ID_index","`qsub -o $RNASEQ_ROOT/logs/ -N log.indexing.g38.salmon -V $RNASEQ_ROOT/scripts/script.1b.salmon.index.pbs | sed 's/\..*//g'`;
+fi
 
 ################## - working / finished
 

@@ -1,6 +1,5 @@
 #!/bin/bash
 #PBS -j oe
-#PBS -o logs/
 #PBS -l nodes=1:ppn=8
 #PBS -l mem=35Gb
 
@@ -13,5 +12,5 @@ STAR \
 	--genomeDir $GENOME_DIR \
 	--genomeFastaFiles "$GENOME_DIR"/genome.fa \
 	--sjdbGTFfile "$GENOME_DIR"/genes.gtf \
-	--sjdbOverhang $(( "$RNASEQ_READ_LENGTH" - 1 ));
+	--sjdbOverhang $(( $RNASEQ_READ_LENGTH - 1 ));
 
