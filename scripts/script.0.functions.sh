@@ -31,4 +31,11 @@ generate_ref_dir() {
  ln -s `echo ${!REFERENCE_GTF}` $RNASEQ_ROOT/references/"$REFERENCE"."$ALIGNER"."$LENGTH"/genes.gtf;
 }
 
-
+# general installation scheme for software build
+make_install() {
+ cd $1;
+ ./configure --prefix=$RNASEQ_ROOT/build;
+ make;
+ make install PREFIX=$RNASEQ_ROOT/build;
+ cd ..;
+}
