@@ -1,11 +1,5 @@
 #!/bin/bash
 
-##############################
-##### include helper functions
-##############################
-
-source scripts/script.0.functions.sh;
-
 ########################
 ##### set work directory
 ########################
@@ -19,6 +13,13 @@ if [ ! -d "$RNASEQ_ROOT" ]; then
   git clone git clone https://github.com/mforde84/rnaseq_workflow_gardner .;
  fi;
 fi;
+
+##############################
+##### include helper functions
+##############################
+
+source $RNASEQ_ROOT/scripts/script.0a.functions.sh;
+
 
 # challenge default scratch directory location
 challenge_default RNASEQ_SCRATCH `pwd`;
