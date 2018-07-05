@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# set functions
+source scripts/script.0a.functions.sh;
+
 ########################
 ##### set work directory
 ########################
@@ -13,12 +16,6 @@ if [ ! -d "$RNASEQ_ROOT" ]; then
   git clone git clone https://github.com/mforde84/rnaseq_workflow_gardner .;
  fi;
 fi;
-
-##############################
-##### include helper functions
-##############################
-
-source $RNASEQ_ROOT/scripts/script.0a.functions.sh;
 
 
 # challenge default scratch directory location
@@ -37,9 +34,10 @@ fi;
 # challenge default locations and genome selections
 challenge_default RNASEQ_G37_FASTA "/group/referenceFiles/Homo_sapiens/Ensembl/martin_g37_g38/g37/Homo_sapiens.GRCh37.dna.primary_assembly.fa";
 challenge_default RNASEQ_G37_GTF "/group/referenceFiles/Homo_sapiens/Ensembl/martin_g37_g38/g37/Homo_sapiens.GRCh37.87.gtf";
+challenge_default RNASEQ_G37_TRANSCRIPT "/group/referenceFiles/Homo_sapiens/Ensembl/martin_g37_g38/g37/Homo_sapiens.GRCh37.cdna.all.fa";
 challenge_default RNASEQ_G38_FASTA "/group/referenceFiles/Homo_sapiens/Ensembl/martin_g37_g38/g38/Homo_sapiens.GRCh38.dna.primary_assembly.fa";
 challenge_default RNASEQ_G38_GTF "/group/referenceFiles/Homo_sapiens/Ensembl/martin_g37_g38/g38/Homo_sapiens.GRCh38.92.gtf"; 
-
+challenge_default RNASEQ_G38_TRANSCRIPT "/group/referenceFiles/Homo_sapiens/Ensembl/martin_g37_g38/g38/Homo_sapiens.GRCh38.cdna.all.fa";
 
 #################################
 ##### set genome indexing options
