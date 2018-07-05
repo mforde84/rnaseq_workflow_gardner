@@ -5,36 +5,36 @@ source $RNASEQ_ROOT/scripts/script.0c.environment.variables.sh;
 
 #### if build directory exists, assume software install works
 
-#if [ ! -d $RNASEQ_ROOT/build ]; then
+if [ ! -d $RNASEQ_ROOT/build ]; then
 
  #### generate build locations
-# mkdir -p $RNASEQ_ROOT/build;
+ mkdir -p $RNASEQ_ROOT/build;
 
  #### untar distributables
-# cd $RNASEQ_ROOT/dist;
-# for f in *xz; do echo "Extracting $f"; tar xvf $f; done;
-# for f in *bz2; do echo "Extracting $f"; tar xvf $f; done;
-# for f in *gz; do echo "Extracting $f"; tar zxvf $f; done;
-# cd $RNASEQ_ROOT;
+ cd $RNASEQ_ROOT/dist;
+ for f in *xz; do echo "Extracting $f"; tar xvf $f; done;
+ for f in *bz2; do echo "Extracting $f"; tar xvf $f; done;
+ for f in *gz; do echo "Extracting $f"; tar zxvf $f; done;
+ cd $RNASEQ_ROOT;
 
  #### jre8 install
-# mv $RNASEQ_ROOT/dist/java-se-8u40-ri/* $RNASEQ_ROOT/build
+ mv $RNASEQ_ROOT/dist/java-se-8u40-ri/* $RNASEQ_ROOT/build
 
  #### gcc/6.4.0 install
  # compiles with system default gcc
-# cd $RNASEQ_ROOT/dist/gcc-6.4.0;
-# ./configure --prefix=$RNASEQ_ROOT/build --enable-shared;
-#$(which expect) <<EOD
-#spawn make
-#expect {
-#-re "Archive name" { exp_send ".\r" exp_continue  }
-#-re . { exp_continue  }
-#timeout { exp_continue }
-#eof { return 0 }
-#}
-#EOD
-# make;
-# make install;
+ cd $RNASEQ_ROOT/dist/gcc-6.4.0;
+ ./configure --prefix=$RNASEQ_ROOT/build --enable-shared;
+$(which expect) <<EOD
+spawn make
+expect {
+-re "Archive name" { exp_send ".\r" exp_continue  }
+-re . { exp_continue  }
+timeout { exp_continue }
+eof { return 0 }
+}
+EOD
+ make;
+ make install;
 
  ###########################
  #### install distributables
@@ -144,8 +144,8 @@ source $RNASEQ_ROOT/scripts/script.0c.environment.variables.sh;
 # make install PREFIX=$RNASEQ_ROOT/build;
  
  #### install salmon
- mkdir -p $RNASEQ_ROOT/dist/salmon-0.9.1/new/1;
- cd $RNASEQ_ROOT/dist/salmon-0.9.1/new1;
+ mkdir -p $RNASEQ_ROOT/dist/salmon-0.9.1/new;
+ cd $RNASEQ_ROOT/dist/salmon-0.9.1/new;
  cmake -DCMAKE_INSTALL_PREFIX=$RNASEQ_ROOT/build ..;
  #cmake -DBZIP2_INCLUDE_DIR=$RNASEQ_ROOT/build/include -DBZIP2_LIBRARY_RELEASE=$RNASEQ_ROOT/build/lib/libbz2.a -DZLIB_INCLUDE_DIR=$RNASEQ_ROOT/build/include -DZLIB_LIBRARY_RELEASE=/scratch/mforde/rnaseq_workflow_gardner/build/lib/libz.a -DCMAKE_INSTALL_PREFIX=$RNASEQ_ROOT/build ..;
  make;
@@ -157,6 +157,6 @@ source $RNASEQ_ROOT/scripts/script.0c.environment.variables.sh;
 
  #### clean up packages distributables
  cd $RNASEQ_ROOT;
- rm -rf $RNASEQ_ROOT/dist;
+# rm -rf $RNASEQ_ROOT/dist;
 
 #fi
