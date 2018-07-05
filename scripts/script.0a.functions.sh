@@ -17,6 +17,7 @@ generate_ref_dir() {
  export REFERENCE=$2;
  export REFERENCE_FASTA=`echo RNASEQ_"$REFERENCE"_FASTA | tr a-z A-Z`;
  export REFERENCE_GTF=`echo RNASEQ_"$REFERENCE"_GTF | tr a-z A-Z`;
+ export REFERENCE_TRANSCRIPT=`echo RNASEQ_"$REFERENCE"_TRANSCRIPT | tr a-z A-Z`;
  export LENGTH="$RNASEQ_KMER_LENGTH";
  if [[ "$ALIGNER" == "star" ]]; then
   export LENGTH="$RNASEQ_READ_LENGTH";
@@ -29,20 +30,19 @@ generate_ref_dir() {
  mkdir -p $RNASEQ_ROOT/references/"$REFERENCE"."$ALIGNER"."$LENGTH";
  ln -s `echo ${!REFERENCE_FASTA}` $RNASEQ_ROOT/references/"$REFERENCE"."$ALIGNER"."$LENGTH"/genome.fa;
  ln -s `echo ${!REFERENCE_GTF}` $RNASEQ_ROOT/references/"$REFERENCE"."$ALIGNER"."$LENGTH"/genes.gtf;
+ ln -s `echo ${!REFERENCE_TRANSCRIPT}` $RNASEQ_ROOT/references/"$REFERENCE"."$ALIGNER"."$LENGTH"/transcriptome.fa;
 }
 
 # general installation scheme for software build
 make_install() {
  cd $RNASEQ_ROOT/dist/$1;
- ./configure --prefix=$RNASEQ_ROOT/build;
+ CFLAGS="-fPIC" CXXFLAG="-fPIC" ./configure --prefix=$RNASEQ_ROOT/build --enable-shared;
  make;
  make install PREFIX=$RNASEQ_ROOT/build;
- cd $RNASEQ_ROOT/dist;
 }
 
 # general installation scheme for python build
-make_install_pip() {
+make_install_python() {
  cd $RNASEQ_ROOT/dist/$1;
- pip install .;
- cd $RNASEQ_ROOT/dist;
+ python setup.py install;
 }

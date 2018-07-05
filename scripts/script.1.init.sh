@@ -37,11 +37,9 @@ fi
 while read -r input_line; do
  
  ###finished
- export ID.download=`qsub -N log.sra.download -V script.2a.sra.download.pbs;`;
+ export ID_download=`qsub -N log.sra.download -V script.2a.sra.download.pbs;`;
 
 done < "$RNASEQ_SRA_LIST";
-
-
 
   export GENOME_DIR=$RNASEQ_ROOT/references/g37;
 
@@ -50,7 +48,7 @@ done < "$RNASEQ_SRA_LIST";
    export ID.align.star1=$ID.align.star1,`qsub -N log.star.align.1pass -W depend=afterok:$ID.g37.index.star1,$ID.download -V script.3a.star.align.pbs | sed 's/\..*//g';`;
    export ID.quasi.salmon=$ID.quasi.salmon,`qsub -N log.salmon.quasi -W depend=afterok:$ID.g37.index.salmon,$ID.download -V script.3b.quasi.salmon.pbs | sed 's/\..*//g';`;
   done;
-  
+
   ID.g37.index.star1=`qsub -N log.indexing.g37.STAR1pass -V $RNASEQ_ROOT/scripts/script.1a.star.index.pbs | sed 's/\..*//g'`;
 
  fi;
@@ -60,8 +58,7 @@ done < "$RNASEQ_SRA_LIST";
  fi;
 
 done < "$RNASEQ_SRA_LIST";
+
 fi
-
-
 
 exit 0
