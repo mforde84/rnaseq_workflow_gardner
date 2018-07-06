@@ -1,7 +1,9 @@
 #!/bin/bash
 
 #### source environment variables
-source $RNASEQ_ROOT/scripts/script.0c.environment.variables.sh;
+#source $RNASEQ_ROOT/scripts/script.0c.environment.variable#s.sh;
+#will likely need to source post gcc installation
+
 
 #### if build directory exists, assume software install works
 
@@ -23,7 +25,7 @@ if [ ! -d $RNASEQ_ROOT/build ]; then
  #### gcc/6.4.0 install
  # compiles with system default gcc
  cd $RNASEQ_ROOT/dist/gcc-6.4.0;
- ./configure --prefix=$RNASEQ_ROOT/build --enable-shared;
+ ./configure --prefix=$RNASEQ_ROOT/build --enable-shared  --enable-languages=c,c++,fortran;
 $(which expect) <<EOD
 spawn make
 expect {
