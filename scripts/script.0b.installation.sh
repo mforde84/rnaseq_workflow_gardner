@@ -1,7 +1,8 @@
 #!/bin/bash
 
-#### source environment variables
-#source $RNASEQ_ROOT/scripts/script.0c.environment.variable#s.sh;
+#### sources
+source $RNASEQ_ROOT/scripts/script.0a.functions.sh;
+source $RNASEQ_ROOT/scripts/script.0c.environment.variables.sh;
 #will likely need to source post gcc installation
 
 
