@@ -2,12 +2,9 @@
 
 #### sources
 source $RNASEQ_ROOT/scripts/script.0a.functions.sh;
-source $RNASEQ_ROOT/scripts/script.0c.environment.variables.sh;
-#will likely need to source post gcc installation
-
+source $RNASEQ_ROOT/scripts/script.0b.environment.variables.sh;
 
 #### if build directory exists, assume software install works
-
 if [ ! -d $RNASEQ_ROOT/build ]; then
 
  #### generate build locations
@@ -25,19 +22,6 @@ if [ ! -d $RNASEQ_ROOT/build ]; then
 
  #### gcc/6.4.0 install
  # compiles with system default gcc
- cd $RNASEQ_ROOT/dist/gcc-6.4.0;
- ./configure --prefix=$RNASEQ_ROOT/build --enable-shared  --enable-languages=c,c++,fortran;
-$(which expect) <<EOD
-spawn make
-expect {
--re "Archive name" { exp_send ".\r" exp_continue  }
--re . { exp_continue  }
-timeout { exp_continue }
-eof { return 0 }
-}
-EOD
- make;
- make install;
 
  ###########################
  #### install distributables
