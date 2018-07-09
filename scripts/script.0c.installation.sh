@@ -22,6 +22,19 @@ if [ ! -d $RNASEQ_ROOT/build ]; then
 
  #### gcc/6.4.0 install
  # compiles with system default gcc
+ cd $RNASEQ_ROOT/dist/gcc-6.4.0;
+ ./configure --prefix=$RNASEQ_ROOT/build --enable-shared  --enable-languages=c,c++,fortran;
+$(which expect) <<EOD
+spawn make
+expect {
+-re "Archive name" { exp_send ".\r" exp_continue  }
+-re . { exp_continue  }
+timeout { exp_continue }
+eof { return 0 }
+}
+EOD
+ make;
+ make install;
 
  ###########################
  #### install distributables
@@ -32,7 +45,7 @@ if [ ! -d $RNASEQ_ROOT/build ]; then
 
  #### install bzip2
  cd $RNASEQ_ROOT/dist/bzip2-1.0.6;
- ./configure --enable-shared --prefix=$RNASEQ_ROOT/build;
+ #./configure --enable-shared --prefix=$RNASEQ_ROOT/build;
  make -f Makefile-libbz2_so;
  make;
  make install PREFIX=$RNASEQ_ROOT/build;
@@ -45,8 +58,7 @@ if [ ! -d $RNASEQ_ROOT/build ]; then
 
  #### install pcre
  cd $RNASEQ_ROOT/dist/pcre-8.39;
- ./configure --enable-utf8 --prefix=$RNASEQ_ROOT/build --disable-cpp 
- --enable-shared
+ ./configure --enable-utf8 --prefix=$RNASEQ_ROOT/build --disable-cpp --enable-shared
  make;
  make install PREFIX=$RNASEQ_ROOT/build;
 
@@ -134,12 +146,33 @@ if [ ! -d $RNASEQ_ROOT/build ]; then
  mkdir -p $RNASEQ_ROOT/dist/salmon-0.9.1/new;
  cd $RNASEQ_ROOT/dist/salmon-0.9.1/new;
  cmake -DCMAKE_INSTALL_PREFIX=$RNASEQ_ROOT/build ..;
- #cmake -DBZIP2_INCLUDE_DIR=$RNASEQ_ROOT/build/include -DBZIP2_LIBRARY_RELEASE=$RNASEQ_ROOT/build/lib/libbz2.a -DZLIB_INCLUDE_DIR=$RNASEQ_ROOT/build/include -DZLIB_LIBRARY_RELEASE=/scratch/mforde/rnaseq_workflow_gardner/build/lib/libz.a -DCMAKE_INSTALL_PREFIX=$RNASEQ_ROOT/build ..;
  make;
  make install PREFIX=$RNASEQ_ROOT/build;
 
+ #### perl5 installation
+ cd $RNASEQ_ROOT/dist/perl-5.28.0;
+ ./Configure -des -Dusethreads -Dcc=gcc -Dprefix=$RNASEQ_ROOT/build;
+ make;
+ cd $RNASEQ_ROOT/dist/perl-5.28.0/dist/IO/;
+ sed -i 's/poll.h/sys\/poll.h/g' IO.c;
+ gcc -c -D_REENTRANT -D_GNU_SOURCE -fwrapv -fno-strict-aliasing -pipe -fstack-protector-strong -I/usr/local/include -D_LARGEFILE_SOURCE -D_FILE_OFFSET_BITS=64 -D_FORTIFY_SOURCE=2 -Wall -Werror=declaration-after-statement -Werror=pointer-arith -Wextra -Wc++-compat -Wwrite-strings -O2   -DVERSION=\"1.39\" -DXS_VERSION=\"1.39\" -fPIC "-I../.." IO.c;
+ cd $RNASEQ_ROOT/dist/perl-5.28.0;
+ make;
+ make install PREFIX=$RNASEQ_ROOT/build;
+
+ ####  install openssl
+ cd $RNASEQ_ROOT/dist/openssl-1.1.1-pre8;
+ ./config --prefix=$RNASEQ_ROOT/build --openssldir=$RNASEQ_ROOT/build;
+ make;
+ make install PREFIX=$RNASEQ_ROOT/build;
+
+ #### install curl
+ cd $RNASEQ_ROOT/dist/curl-7.60.0;
+ ./configure --prefix=$RNASEQ_ROOT/build --with-ssl
+ make;
+ make install PREFIX=$RNASEQ_ROOT/build;
+ 
  #### CRAN installation
- make_install curl-7.60.0; 
  make_install R-3.5.0;
 
  #### clean up packages distributables
