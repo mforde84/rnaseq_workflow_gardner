@@ -96,52 +96,9 @@ EOD
  ./b2
  ./b2 install --prefix=$RNASEQ_ROOT/build
 
- #### install tbb
-# cd $RNASEQ_ROOT/build/tbb-2018_U4;
-# gmake;
-# mv build/`echo $(gmake info | tail -n1 | sed 's/^.*=//g')_release` $RNASEQ_ROOT/build;
-# mv build/`echo $(gmake info | tail -n1 | sed 's/^.*=//g')_debug` $RNASEQ_ROOT/build;
-# mv include $RNASEQ_ROOT/build;
-
- #### install spdlog
-# mkdir -p $RNASEQ_ROOT/dist/spdlog-0.17.0/build;
-# cd $RNASEQ_ROOT/dist/spdlog-0.17.0/build;
-# cmake -DCMAKE_INSTALL_PREFIX=$RNASEQ_ROOT/build ..;
-# make;
-# make install PREFIX=$RNASEQ_ROOT/build;
- 
- #### install jemalloc
-# cd $RNASEQ_ROOT/dist/jemalloc-5.1.0;
-# autoreconf -f;
-# ./configure --prefix=$RNASEQ_ROOT/build
-# make;
-# touch doc/jemalloc.html;
-# touch doc/jemalloc.3;
-# make install_doc_html;
-# make install PREFIX=$RNASEQ_ROOT/build;
- 
  #### install ruby
  make_install ruby-2.5.1;
 
- #### install yaggo
-# make_install yaggo-1.5.10;
- 
- #### install jellyfish
-# cd $RNASEQ_ROOT/dist/Jellyfish-2.2.6;
-# autoreconf -i;
-# make_install Jellyfish-2.2.6;
- 
- ### install bwa
-# make_install bwa-0.7.17;
-# cp -r $RNASEQ_ROOT/dist/bwa-0.7.17/* $RNASEQ_ROOT/build/bin;
- 
- #### install cereal
-# mkdir -p $RNASEQ_ROOT/dist/cereal-1.2.2/build;
-# cd $RNASEQ_ROOT/dist/cereal-1.2.2/build;
-# cmake -DBoost_DIR=$RNASEQ_ROOT/build -DCMAKE_INSTALL_PREFIX=$RNASEQ_ROOT/build ..;
-# make;
-# make install PREFIX=$RNASEQ_ROOT/build;
- 
  #### install salmon
  mkdir -p $RNASEQ_ROOT/dist/salmon-0.9.1/new;
  cd $RNASEQ_ROOT/dist/salmon-0.9.1/new;
@@ -177,6 +134,6 @@ EOD
 
  #### clean up packages distributables
  cd $RNASEQ_ROOT;
-# rm -rf $RNASEQ_ROOT/dist;
+ rm -rf $RNASEQ_ROOT/dist;
 
-#fi
+fi
